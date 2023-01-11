@@ -1,34 +1,26 @@
 import numpy as np
 
-width = 1500
-height = 1200
+maze = [
+
+    [" ", " ", " ", "#", "S", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", "#", " ", "#", "#", "#", "#", "#", " ", " ", " ", " ", " "],
+    ["#", "#", " ", "#", " ", "#", " ", " ", " ", "#", " ", " ", " ", " ", " "],
+    ["#", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", " ", " ", " ", " "],
+    ["#", "#", " ", "#", " ", "#", " ", "#", " ", "#", " ", " ", " ", " ", " "],
+    ["#", "#", "#", "#", " ", "#", " ", "#", " ", " ", " ", " ", " ", " ", " "],
+    ["#", " ", " ", " ", " ", "#", " ", "#", " ", " ", " ", " ", " ", " ", " "],
+    ["#", " ", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", " ", " "],
+    ["#", "#", "#", "#", "#", "#", "#", "#", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+    [" ", " ", " ", "F", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+]
+
 
 snake_list = [[500, 400], [400, 400], [300, 400], [200, 400], [100, 400], [0, 400]]
 food = [1200, 300]
 snake_size = 100
-
-snake = []
-
-for x in snake_list:
-    snake.append([x[0] // snake_size, x[1] // snake_size])
-
-
-def create_grid(width, height, snake_size, snake):
-    grid = []
-    for x in range(width//snake_size):
-        row = []
-        for y in range(height//snake_size):
-            row.append(" ")
-        grid.append(row)
-
-    for x in snake:
-        grid[x[0]][x[1]] = "#"  # Body of the snake
-    grid[food[0] // snake_size][food[1] // snake_size] = "F"  # Food - where we want to find the optimal path to
-    grid[snake[-1][0]][snake[-1][1]] = "S"  # Head of the snake
-    for x in grid:
-        print(x)
-
-    return grid
 
 
 def pathfinder(maze):
@@ -36,6 +28,7 @@ def pathfinder(maze):
     start = [snake_list[-1][0]//snake_size, snake_list[-1][1]//snake_size]  # Head of the snake
     start = (start[0], start[1])
     finish = tuple([food[0]//snake_size, food[1]//snake_size])  # Location of the food
+    print(type(start))
 
     temp = start  # 'virtual' head of the snake on its exploration
     inf = maze.__sizeof__()  # Longest path possible
@@ -44,7 +37,7 @@ def pathfinder(maze):
     min_list = []  # Shortest path
 
     for row in range(len(maze)):
-        for col in range(len(maze[0])):
+        for col in range(len(maze)):
             if maze[row][col] != '#':
                 distance = int(np.sqrt((finish[0] - row) ** 2 + (finish[1] - col) ** 2))
                 andmed[(row, col)] = {"g": inf, "h": distance, "been": [], 'direction': []}
@@ -108,9 +101,4 @@ def pathfinder(maze):
     print(f"Path found in {tries} tries")
 
 
-maze = create_grid(width, height, snake_size, snake)
-for col in maze:
-    print(col)
-    for row in col:
-        print(row)
 pathfinder(maze)

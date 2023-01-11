@@ -7,8 +7,8 @@ pygame.init()
 # Getting the screen size for the monitors in pixels
 snake_size = 25
 info = str(get_monitors()).split(',')
-width = int((round((int(info[2][7:])) // snake_size) * snake_size))
-height = int((round(((int(info[3][8:])) - snake_size - 50) // snake_size) * snake_size))
+width = int((round((int(info[2][7:])) * 0.9 // snake_size) * snake_size))
+height = int((round(((int(info[3][8:])) * 0.9 - snake_size - 50) // snake_size) * snake_size))
 if width + snake_size > int(info[2][7:]):
     width -= snake_size
 if height + snake_size > int(info[3][8:]):
@@ -28,6 +28,7 @@ font_style = pygame.font.SysFont("microsoftsansserif", 25)
 # How fast does the snake move - in one frame the snake moves one block
 clock = pygame.time.Clock()
 FPS = 15  # Recommended
+
 
 # Displays the starting and end messages
 def message(msg, color):
@@ -139,6 +140,7 @@ def game():
 
 
 if __name__ == '__main__':
+
     start = False
     while not start:
         message('Press any key to begin, press Q-Quit to close', 'white')
